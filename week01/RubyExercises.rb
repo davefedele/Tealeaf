@@ -32,7 +32,7 @@ puts arr
 
 # 5. Get rid of "11". And append a "3".
 
-arr.pop(11)
+arr.pop
 puts arr
 arr.push(3)
 puts arr
