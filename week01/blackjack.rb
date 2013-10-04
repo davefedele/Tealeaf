@@ -1,140 +1,171 @@
-def message msg
-	puts "#{msg}"
-end
-
-def stay_or_hit(name)
-	puts ""
-	puts "#{name}, what would you like to do?"
-	puts "1) Hit"
-	puts "2) Stay"
-	puts ""
-end
-
 def calculate_total(hand)
-	arr = hand.map {|e| e[1] }
-	total = 0
-	arr.each do |value|
-		if value == 'A'
-			total += 11 
-		elsif value.to_i == 0
-			total += 10
-		else
-			total += value.to_i
-	end
+  card_values = hand.map {|e| e[0]}
+  total = 0
+  card_values.each do |value|
+    if value == 'A' #Aces
+      total += 11
+    elsif value.to_i == 0 #face cards
+      total += 10
+    else #number cards
+      total += value.to_i
+    end
+  end
+
+  #if over 21, change A value to 1
+  card_values.select {|e| e == "A"}.count.times do
+    total -= 10 if total > 21
+  end
+
+  total
 end
 
-#correct for aces
-arr.select {|e| e == "A"}.count.times do
-	total -= 10 if total > 21
+def hit_or_stay
+  puts 'What would you like to do?'
+  puts '                      1 - Hit'
+  puts '                      2 - Stay'
+  puts ''
 end
 
-	total
-end
- 
-suit = ['H', 'D' , 'S', 'C']
 card = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+suit = ['Diamonds', 'Hearts', 'Spades', 'Clubs']
 
-#create 2 decks and shuffle
-deck = suit.product(card) * 2
-deck.shuffle!
+deck = card.product(suit) * 2
 
-message 'Welcome to Blackjack!'
-message ''
-message 'Please practice responsible gambling...always go all in! :)'
+puts 'Welcome to Blackjack'
+puts ''
+puts 'Please enter your name:'
+puts ''
+player_name = gets.chomp.downcase.capitalize
+puts ''
+puts "Welcome #{player_name}! Let's play some Blackjack!"
+puts ''
 
-message ''
-message 'Please enter your name: '
-player = gets.chomp.downcase.capitalize
-message "Welcome #{player}!"
+#Main Program
+while true
+  deck.shuffle!.shuffle!.shuffle!
 
-player_hand=[]
-dealer_hand=[]
+  player_hand = []
+  dealer_hand = []
 
-#deal cards
-2.times do
-	player_hand << deck.pop
-	dealer_hand << deck.pop
-end
+  player_total = 0
+  dealer_total = 0
 
-#calculate total
-dealer_total = calculate_total(dealer_hand)
-player_total = calculate_total(player_hand)
+  2.times do
+    player_hand << deck.pop
+    dealer_hand << deck.pop
+  end
 
-#show cards
-message ''
-message "The dealer has: #{dealer_hand[0]} and #{dealer_hand[1]} for a total of #{dealer_total}"
-message "#{player}, you have: #{player_hand[0]} and #{player_hand[1]} for a total of: #{player_total}"
-message ''
+  player_total = calculate_total(player_hand)
+  dealer_total = calculate_total(dealer_hand)
 
-if player_total == 21
-	message "Blackjack!! You win #{player}!"
-	exit
-end
+  puts "The dealer has #{dealer_total}. Here are the dealer's: "
+  dealer_hand.each { |card| puts '                      ' + card[0] + " of " + card[1] }
+  puts ''
+  puts "#{player_name}, you have #{player_total}. These are your cards:"
+  player_hand.each { |card| puts '                      ' + card[0] + " of " + card[1] }
+  puts ''
 
-while player_total < 22
-	stay_or_hit(player)
-	action = gets.chomp
+  if player_total == 21
+    puts "Blackjack! Congratulations #{player_name}, you won!"
+  end
 
-	if action == '2'
-		#message "You have a total of: #{player_total}"
-		break
-	end	
+  #player hand
+  while player_total < 22
+    hit_or_stay
+    action = gets.chomp
+    if action == '2'
+      puts ''
+      puts "You stay #{player_name}"
+      puts ''
+      break
+    elsif action == '1'
+      #deal new card
+      player_hand << deck.pop
+      player_total = calculate_total(player_hand)
+      puts ''
+      puts "#{player_name}, you have a total of: #{player_total}"
+      player_hand.each { |card| puts '                      ' + card[0] + " of " + card[1] }
+      puts ''
 
-	player_hand << deck.pop
-	player_total = calculate_total(player_hand)
-	message "#{player}, you have a total of: #{player_total}"
+      if player_total == 21
+        puts ''
+        puts "Blackjack!! You win #{player_name}!"
+        puts ''
+        break
+      elsif player_total > 21
+        puts ''
+        puts "Bust! You are over 21...You Lose #{player_name}. Better luck next time #{player_name}!"
+        puts ''
+        break
+      end
+    else
+      puts "Please select '1' or '2' "
+    end
+  end
 
-	if player_total == 21
-		message "Blackjack!! You win #{player}!"
-		exit
-	elsif player_total > 22
-		message "Bust! You are over 21. Better luck next time #{player}!"
-		exit
-	end
-end
+  #repeat code above for dealer
+  if dealer_total == 21
+    puts "Dealer has Blackjack!! You lose! #{player_name} :("
+  end
 
-#repeat code above for dealer
-if dealer_total == 21
-	message "Dealer has Blackjack!! You lose! #{player} :("
-	exit
-end
+  while dealer_total < 17 && player_total < 21
+    puts "The Dealer hits."
+    dealer_hand << deck.pop
+    dealer_total = calculate_total(dealer_hand)
+    puts "Dealer has a total of: #{dealer_total}"
 
-while dealer_total < 17
-	message "The Dealer hits."
-	dealer_hand << deck.pop
-	dealer_total = calculate_total(dealer_hand)
-	message "Dealer has a total of: #{dealer_total}"
+    if dealer_total == 21
+      puts ''
+      puts "Dealer has Blackjack!! You lose #{player_name}!"
+      break
+    elsif dealer_total > 21
+      puts ''
+      puts "Bust! Dealer is over 21. You win #{player_name}!"
+      break
+    end
+  end
 
-	if dealer_total == 21
-		message "Dealer has Blackjack!! You lose #{player}!"
-		break
-	elsif dealer_total > 21
-		message "Bust! Dealer is over 21. You win #{player}!"
-		break
-	end
-end
+  if player_total != 21 && player_total < 21 && dealer_total < 21
+    #determine the winner
+    puts ''
+    puts "The Dealer has #{dealer_total}"
+    puts "The Dealer's cards are: "
+    dealer_hand.each { |card| puts '                      ' + card[0] + " of " + card[1] }
 
-#determine the winner
-message ''
-message "The Dealer has #{dealer_total}"
-message "The Dealer's cards are: "
-dealer_hand.each do |card|
-	puts "=> #{card}"
-end
+    puts ''
+    puts "#{player_name}, your total is #{player_total}"
+    puts "#{player_name}, your cards are: "
+    player_hand.each { |card| puts '                      ' + card[0] + " of " + card[1] }
 
-message ''
-message "#{player}, your total is #{player_total}"
-message "#{player}, your cards are: "
-player_hand.each do |card|
-	puts "=> #{card}"
-end
+    puts ""
 
-message ""
+    if dealer_total > player_total
+      puts "The Dealer won! :("
+    elsif dealer_total < player_total
+      puts "You won #{player_name}!! Good job!"
+    else
+      puts "It's a push!"
+    end
+  end
 
-if dealer_total > player_total
-	message "The Dealer won! :("
-elsif dealer_total < player_total
-	message "You won #{player}!! Good job!"
-else
-	message "It's a push!"
+  puts ''
+  puts "Would you like to play again? 'y' or 'n'"
+
+  while true
+    replay = gets.chomp.downcase
+    if replay == 'y'
+      break
+    elsif replay == 'n'
+      puts "Thanks for playing Blackjack #{player_name}!"
+      exit
+    else
+      puts "Please enter 'y' or 'n' "
+    end
+  end
+  
+  puts ''
+  puts ''
+  puts '-----------------------------------------------------------------'
+  puts 'Next Game:'
+  puts ''
 end
