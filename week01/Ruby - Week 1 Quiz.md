@@ -7,7 +7,7 @@
   Answer = 1
 2. What's the difference between an `Array` and a `Hash`?
 
-Answer = An array is a list of ordered elements while a hash is an unordered list of elements that is a colletion of key:value pairs.
+Answer = An array is a list of ordered elements while a hash is an unordered list of elements that is a collection of key:value pairs.
 3. Every Ruby expression returns a value. Say what value is returned in the below expressions:
     * `arr = [1, 2, 3, 3]`
     * `[1, 2, 3, 3].uniq`
