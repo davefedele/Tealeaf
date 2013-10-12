@@ -71,7 +71,7 @@ module Hand
     end
 
     values.select {|v| v == "A"}.count.times do
-      total -= 10 if total >= 21
+      total -= 10 if total >= Blackjack::BLACKJACK_AMOUNT
     end
 
     total
@@ -82,7 +82,7 @@ module Hand
   end
 
   def isBusted?
-    total > 21
+    total > Blackjack::BLACKJACK_AMOUNT
   end
 end
 
@@ -121,6 +121,9 @@ end
 class Blackjack 
   attr_accessor :deck, :player, :dealer
 
+  BLACKJACK_AMOUNT = 21
+  DEALER_HIT_MIN = 17
+
   def initialize
     @deck = Deck.new 
     @player = Player.new("Player1")
@@ -145,20 +148,20 @@ class Blackjack
   end
 
   def blackjack_or_bust?(player_or_dealer)
-    if player_or_dealer.total == 21
+    if player_or_dealer.total == BLACKJACK_AMOUNT 
       if player_or_dealer.is_a?(Dealer)
         puts "Sorry, the dealer has blackjack. #{player.name} loses." 
       else
         puts "You have blackjack! #{player.name} wins! "
       end 
-      exit
+      play_again?
     elsif player_or_dealer.isBusted?
       if player_or_dealer.is_a?(Dealer)
         puts "The dealer busted! #{player.name} wins!"
       else
         puts "Sorry, #{player.name} busted. #{player.name} loses!"
       end
-      exit
+      play_again?
     end    
   end
 
@@ -190,7 +193,48 @@ class Blackjack
         blackjack_or_bust?(player)
       end
     end
-    puts "#{player.name} stays."
+    puts "#{player.name} stays at #{player.total}."
+  end
+
+  def dealer_turn
+    puts "---- Dealer's turn ---"
+
+    blackjack_or_bust?(dealer)
+    while dealer.total < Blackjack::DEALER_HIT_MIN
+      new_card = deck.deal_one
+      puts "Dealing a new card to dealer: #{new_card}"
+      dealer.add_card(new_card)
+      puts "Dealer total is now #{dealer.total}"
+
+      blackjack_or_bust?(dealer)
+    end
+    puts "Dealer stays at #{dealer.total}."
+  end
+
+  def who_won?
+    if player.total > dealer.total
+      puts "Congratulations, #{player.name} wins!"
+    elsif player.total < dealer.total
+      puts "Sorry, #{player.name} loses."
+    else
+      puts "It's a tie!"
+    end
+  end
+
+  def play_again?
+    puts ""
+    puts "Would you like to play again? 1) yes 2) no, exit"
+    if gets.chomp == '1'
+      puts "Starting new game..."
+      puts ""
+      deck = Deck.new
+      player.cards = []
+      dealer.cards = []
+      start
+    else
+      puts "Goodbye!"
+      exit
+    end
   end
 
   def start
@@ -198,8 +242,9 @@ class Blackjack
     deal_cards
     show_flop
     player_turn
-    # dealer_turn
-    # who_won?(player,dealer)
+    dealer_turn
+    who_won?
+    play_again?
   end
 end
 
