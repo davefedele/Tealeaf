@@ -2,7 +2,10 @@
 
 1. What is HTML? What is CSS? What is Javascript?
 
-<pre><code>HTML is the skeleton. CSS is the skin. Javascript is the animation.</code></pre>
+<pre><code>Hypertext Markup Language - creates the overall webpage arrangement through the use of the DOM.
+  Cascading Style Sheet allows for styling to be applied/overriden throughout your entire site, or on a per page basis.
+  Javascript allows client-side scripts to interact with the user, control the browser, communicate asynchronously, and alter the document content that is displayed.
+  HTML is the skeleton. CSS is the skin. Javascript is the animation.</code></pre>
 
 2. What are the major parts of an HTTP request?
 
@@ -32,7 +35,7 @@
 6. If the internet is just HTTP requests/responses, why do we only use browsers to interface with web applications? Are there any other options?
 
 <pre><code>
-  </code></pre>
+</code></pre>
 
 7. What is MVC, and why is it important?
 
@@ -48,8 +51,8 @@ The below questions are about Sinatra:
 
 8. At a high level, how are requests processed?
 
-<pre><code>
-  </code></pre>
+<pre><code>A route is made that is an http methods paired with an url-matching pattern.
+</code></pre>
 
 9. In the controller/action, what's the difference between rendering and redirecting?
 
@@ -63,8 +66,8 @@ The below questions are about Sinatra:
 
 11. Given what you know about ERB templates, when do you suppose the ERB template is turned into HTML?
 
-<pre><code>
-  </code></pre>
+<pre><code>After the ruby code is evaluated.
+</code></pre>
 
 12. What's the role of instance variables in Sinatra?
 
