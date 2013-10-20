@@ -64,7 +64,7 @@ The below questions are about Sinatra:
 
 10. In the ERB view template, how do you show dynamic content?
 
-<pre><code><%= yield %>
+<pre><code>You embed ruby code using -   <%= yield %>
 </code></pre>
 
 11. Given what you know about ERB templates, when do you suppose the ERB template is turned into HTML?
