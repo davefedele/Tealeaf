@@ -3,8 +3,11 @@
 1. What is HTML? What is CSS? What is Javascript?
 
 <pre><code>Hypertext Markup Language - creates the overall webpage arrangement through the use of the DOM.
+
   Cascading Style Sheet allows for styling to be applied/overriden throughout your entire site, or on a per page basis.
+  
   Javascript allows client-side scripts to interact with the user, control the browser, communicate asynchronously, and alter the document content that is displayed.
+  
   HTML is the skeleton. CSS is the skin. Javascript is the animation.</code></pre>
 
 2. What are the major parts of an HTTP request?
