@@ -27,7 +27,16 @@
 
 4. How do you submit an HTTP POST request, with a "username" attribute set to "bob"? What if we wanted a GET request instead?
 
-<pre><code>
+<pre><code>For GET, query strings (name/value pairs) is sent in the URL of a GET request:
+Get = http://website.com/page?parameter=value&also=another
+
+
+For POST, query strings (name/value pairs) is sent in the HTTP message body of a POST request:
+
+POST /page HTTP/1.1
+Host: website.com
+parameter=value&also=another
+
   </code></pre>
 
 5. Why is it important for us, as web developers, to understand that HTTP is a "stateless" protocol?
