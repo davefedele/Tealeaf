@@ -40,10 +40,12 @@ parameter=value&also=another
 
 5. Why is it important for us, as web developers, to understand that HTTP is a "stateless" protocol?
 
-<pre><code>It's important because we need to simulate some sort of state or persistence. Since there is no such thing as a state, every request the app reconstitutes the world. We must pull info from a db/caching mechanism to simulate persistence.
+<pre><code>It's important because we need to simulate some sort of state or persistence. Since there is no such thing as a 
+  state, every request the app reconstitutes the world. We must pull info from a db/caching mechanism to simulate persistence.
 </code></pre>
 
-6. If the internet is just HTTP requests/responses, why do we only use browsers to interface with web applications? Are there any other options?
+6. If the internet is just HTTP requests/responses, why do we only use browsers to interface with web applications? Are there 
+any other options?
 
 <pre><code>
 </code></pre>
@@ -67,7 +69,8 @@ The below questions are about Sinatra:
 
 9. In the controller/action, what's the difference between rendering and redirecting?
 
-<pre><code>Rendering will show a template for the given action, while redirecting will move to a different action and thus a differnet view for display.
+<pre><code>Rendering will show a template for the given action, while redirecting will move to a different action and thus 
+  a differnet view for display.
 </code></pre>
 
 10. In the ERB view template, how do you show dynamic content?
