@@ -36,8 +36,7 @@ For POST, query strings (name/value pairs) is sent in the HTTP message body of a
 POST /page HTTP/1.1
 Host: website.com
 parameter=value&also=another
-
-  </code></pre>
+</code></pre>
 
 5. Why is it important for us, as web developers, to understand that HTTP is a "stateless" protocol?
 
